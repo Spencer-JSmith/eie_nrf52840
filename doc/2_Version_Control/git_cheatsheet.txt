@@ -1,0 +1,24 @@
+git commit
+    make a new commit
+
+git branch <name>
+    make a new branch
+    use git checkout -b <name> to make a new branch and chekout into it immediately
+
+git checkout <name>
+    Switch to that branch
+
+git pull
+    get changes from network, merge them to yours
+
+git push
+    publish changes
+
+git merge <name>
+    combine current branch with another?
+
+git rebase <name>
+    put current branch changes on top of another>
+
+git fetch
+    get changes from network without merging
