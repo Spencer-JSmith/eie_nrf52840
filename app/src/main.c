@@ -32,12 +32,40 @@ int main(void) {
         return -1;
     }
 
+    int sequence = 0;
     while (1)
-    {
-        gpio_pin_toggle_dt(&led0);
-        gpio_pin_toggle_dt(&led1);
-        gpio_pin_toggle_dt(&led2);
-        gpio_pin_toggle_dt(&led3);
+    {   
+        switch (sequence) {
+            case 0:
+                gpio_pin_set_dt(&led0, 1);
+                gpio_pin_set_dt(&led1, 0);
+                gpio_pin_set_dt(&led2, 0);
+                gpio_pin_set_dt(&led3, 0);
+                break;
+            case 1:
+                gpio_pin_set_dt(&led0, 0);
+                gpio_pin_set_dt(&led1, 1);
+                gpio_pin_set_dt(&led2, 0);
+                gpio_pin_set_dt(&led3, 0);
+                break;
+            case 2:
+                gpio_pin_set_dt(&led0, 0);
+                gpio_pin_set_dt(&led1, 0);
+                gpio_pin_set_dt(&led2, 0);
+                gpio_pin_set_dt(&led3, 1);
+                break;
+            case 3:
+                gpio_pin_set_dt(&led0, 0);
+                gpio_pin_set_dt(&led1, 0);
+                gpio_pin_set_dt(&led2, 1);
+                gpio_pin_set_dt(&led3, 0);
+                break;
+        }
+
+        sequence++;
+        if (sequence > 3) {
+            sequence = 0;
+        }
 
         k_msleep(1000);
     }
