@@ -33,6 +33,7 @@ int main(void) {
     return 0;
   
   gpio_init_callback(&button_isr_data, button_isr, BIT(button.pin));
+  gpio_add_callback(button.port, &button_isr_data);
 
   while(1) {
 
