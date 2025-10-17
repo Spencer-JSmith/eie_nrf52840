@@ -8,7 +8,24 @@
 #include <zephyr/sys/printk.h>
 #include <inttypes.h>
 
+#define SLEEP_TIME_MS 500
+
+#define SW0_NODE DT_ALIAS(sw0)
+static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
+
+void button_isr(const struct device *dev, struct gpio_callback *cb, uint32_t pins) {
+  printk("love pressed");
+}
+
 int main(void) {
+  int ret;
+
+  if (!gpio_is_ready_dt(&button))
+    return 0;
+  
+  ret = gpio_pin_configure_dt(&button, GPIO_INPUT);
+  if (0 > ret)
+    return 0;
 
   while(1) {
 
