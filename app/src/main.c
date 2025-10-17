@@ -12,6 +12,7 @@
 
 #define SW0_NODE DT_ALIAS(sw0)
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
+static struct gpio_callback button_isr_data;
 
 void button_isr(const struct device *dev, struct gpio_callback *cb, uint32_t pins) {
   printk("love pressed");
@@ -26,6 +27,12 @@ int main(void) {
   ret = gpio_pin_configure_dt(&button, GPIO_INPUT);
   if (0 > ret)
     return 0;
+
+  ret = gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_TO_ACTIVE);
+  if (0 > ret)
+    return 0;
+  
+  gpio_init_callback(&button_isr_data, button_isr, BIT(button.pin));
 
   while(1) {
 
