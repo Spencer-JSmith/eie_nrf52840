@@ -22,3 +22,12 @@ git rebase <name>
 
 git fetch
     get changes from network without merging
+
+
+
+When building
+    west build -b nrf52840dk/nrf52840 app
+if bad, try:
+    add --pristine to end
+or:
+    delete folder /build in eie_nrf52840.git directory
