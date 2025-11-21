@@ -18,6 +18,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/settings/settings.h>
 #include <zephyr/sys/printk.h>
+#include "LED.h"
 
 /* MACROS --------------------------------------------------------------------------------------- */
 
@@ -102,11 +103,19 @@ static ssize_t ble_custom_service_write(struct bt_conn* conn, const struct bt_ga
   memcpy(value + offset, buf, len);
   value[offset + len] = 0;
 
+  uint16_t led_on_cmd = true;
+  uint16_t led_off_cmd = true;
   printk("[BLE] ble_custom_service_write (%d, %d):", offset, len);
   for (uint16_t i = 0; i < len; i++) {
     printk("%s %02X '%c'", i == 0 ? "" : ",", value[offset + i], value[offset + i]);
+
+    if (value[offset + i] != "LED ON"[i]) led_on_cmd = false;
+    if (value[offset + i] != "LED OFF"[i]) led_off_cmd = false;
   }
   printk("\n");
+
+  if (led_on_cmd) LED_set(LED0, LED_ON);
+  if (led_off_cmd) LED_set(LED0, LED_OFF);
 
   return len;
 }
@@ -121,6 +130,7 @@ static void ble_custom_service_notify() {
 
 int main(void) {
   int err = bt_enable(NULL);
+  LED_init();
   if (err) {
     printk("Bluetooth init failed (err %d)\n", err);
     return 0;
