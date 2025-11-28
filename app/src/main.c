@@ -34,7 +34,7 @@ static const struct bt_data ad_data[] = {
   BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME, sizeof(CONFIG_BT_DEVICE_NAME) - 1),
 };
 
-static uint8_t ble_custom_char_user_data[20] = {};
+static uint8_t ble_custom_char_user_data[20] = {'7'};
 
 static ssize_t ble_custom_char_read_cb(struct bt_conn *conn, const struct bt_gatt_attr* attr,
                                        void* buf, uint16_t len, uint16_t offset) {
@@ -62,7 +62,7 @@ BT_GATT_SERVICE_DEFINE(
 
   BT_GATT_CHARACTERISTIC(
     &ble_custom_char_uuid.uuid,
-    (BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
+    (BT_GATT_CHRC_READ | BT_GATT_CHRC_WRITE),
     (BT_GATT_PERM_READ | BT_GATT_PERM_WRITE),
     ble_custom_char_read_cb,
     ble_custom_char_write_cb,
